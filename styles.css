@@ -1845,26 +1845,45 @@ img {
 
 @media (max-width: 720px) {
     /* ── Nav mobile drawer ────────────────────────────────────── */
+    .logo { position: relative; z-index: 1001; }
+    
     .nav-links {
         position: fixed;
         top: 0;
-        right: -100%;
-        width: 78%;
-        max-width: 320px;
+        right: 0;
+        width: 100%;
         height: 100vh;
         height: 100dvh;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 2rem;
+        gap: 2.2rem;
         padding: 2rem;
-        background: var(--paper);
-        box-shadow: var(--shadow-lg);
-        transition: right .4s var(--ease);
+        background: rgba(255, 253, 249, 0.98);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        transition: transform .4s var(--ease), visibility .4s, opacity .4s;
+        transform: translateY(-20px);
+        opacity: 0;
+        visibility: hidden;
         z-index: 999;
     }
-    .nav-links.active { right: 0; }
-    .nav-links a { font-size: 1.1rem; }
+    .nav-links.active { 
+        transform: translateY(0); 
+        opacity: 1;
+        visibility: visible;
+    }
+    .nav-links a { 
+        font-family: var(--font-display);
+        font-size: 1.6rem; 
+        font-weight: 700;
+        color: var(--navy-ink);
+        letter-spacing: -0.02em;
+    }
+    .nav-links a::after {
+        height: 3px;
+        bottom: -4px;
+    }
     .menu-toggle { display: flex; z-index: 1001; }
     .btn-nav { display: none; }
 
