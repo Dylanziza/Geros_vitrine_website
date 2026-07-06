@@ -1,350 +1,431 @@
+/* ============================================================
+   GEROS — interactions
+   ============================================================ */
+
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 document.addEventListener('DOMContentLoaded', () => {
-    initCursor();
     initNavbar();
-    initAnimations();
-    initCounters();
-    initScrollEffects();
-    initTiltEffect();
-    setupDownloadButton();
+    initMobileMenu();
+    initProgressBar();
+    initScrollSpy();
+    initReveals();
+    initCounter();
+    initSpark();
     initFaq();
+    initOfflineDemo();
+    initHeroCanvas();
+    initMagnet();
+    initDownload();
+    initHeroNet();
 });
 
-function initFaq() {
-    const faqItems = document.querySelectorAll('.faq-item');
-    
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        question.addEventListener('click', () => {
-            const isActive = item.classList.contains('active');
-            
-            // Close all other items
-            faqItems.forEach(otherItem => {
-                otherItem.classList.remove('active');
-            });
-            
-            // Toggle current item
-            if (!isActive) {
-                item.classList.add('active');
-            }
-        });
-    });
-}
-
-function initCursor() {
-    const cursorDot = document.querySelector('.cursor-dot');
-    const cursorOutline = document.querySelector('.cursor-outline');
-    
-    if (!cursorDot || !cursorOutline) return;
-    
-    let mouseX = 0, mouseY = 0;
-    let outlineX = 0, outlineY = 0;
-    
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        
-        cursorDot.style.left = mouseX - 4 + 'px';
-        cursorDot.style.top = mouseY - 4 + 'px';
-    });
-    
-    function updateOutline() {
-        outlineX += (mouseX - outlineX) * 0.15;
-        outlineY += (mouseY - outlineY) * 0.15;
-        
-        cursorOutline.style.left = outlineX - 20 + 'px';
-        cursorOutline.style.top = outlineY - 20 + 'px';
-        
-        requestAnimationFrame(updateOutline);
-    }
-    updateOutline();
-    
-    const hoverElements = document.querySelectorAll('a, button, .feature-card, .tech-item');
-    hoverElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursorOutline.style.transform = 'scale(1.5)';
-            cursorOutline.style.borderColor = 'rgba(253, 139, 0, 0.8)';
-        });
-        el.addEventListener('mouseleave', () => {
-            cursorOutline.style.transform = 'scale(1)';
-            cursorOutline.style.borderColor = 'rgba(234, 128, 0, 0.5)';
-        });
-    });
-}
-
+/* ---------- Navbar shrink ---------- */
 function initNavbar() {
-    const navbar = document.querySelector('.navbar');
-    
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
-    
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    
-    if (menuToggle && navLinks) {
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            menuToggle.classList.toggle('active');
-        });
-        
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                menuToggle.classList.remove('active');
-            });
-        });
-    }
+    const nav = document.getElementById('navbar');
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
 }
 
-function initAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-            }
-        });
-    }, observerOptions);
-    
-    document.querySelectorAll('.feature-card, .tech-item, .ux-item, .step').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
+/* ---------- Mobile menu ---------- */
+function initMobileMenu() {
+    const toggle = document.getElementById('menuToggle');
+    const links = document.getElementById('navLinks');
+    if (!toggle || !links) return;
+    toggle.addEventListener('click', () => {
+        links.classList.toggle('active');
+        toggle.classList.toggle('active');
     });
-    
-    document.addEventListener('scroll', () => {
-        document.querySelectorAll('.feature-card, .tech-item, .ux-item, .step').forEach(el => {
-            if (isElementInViewport(el)) {
-                el.style.opacity = '1';
-                el.style.transform = 'translateY(0)';
-            }
-        });
-    });
-}
-
-function isElementInViewport(el) {
-    const rect = el.getBoundingClientRect();
-    return (
-        rect.top < window.innerHeight - 100 &&
-        rect.bottom > 0
+    links.querySelectorAll('a').forEach(a =>
+        a.addEventListener('click', () => {
+            links.classList.remove('active');
+            toggle.classList.remove('active');
+        })
     );
 }
 
-function initCounters() {
-    const counters = document.querySelectorAll('.stat-number');
-    let animated = false;
-    
-    function animateCounters() {
-        if (animated) return;
-        
-        const heroStats = document.querySelector('.hero-stats');
-        if (!heroStats) return;
-        
-        const rect = heroStats.getBoundingClientRect();
-        if (rect.top < window.innerHeight - 100) {
-            animated = true;
-            
-            counters.forEach(counter => {
-                const target = parseInt(counter.dataset.target);
-                const suffix = counter.dataset.suffix || '';
-                
-                if (target === 0) return;
-                
-                let current = 0;
-                const increment = target / 60;
-                
-                const updateCounter = () => {
-                    current += increment;
-                    if (current < target) {
-                        counter.textContent = Math.floor(current) + suffix;
-                        requestAnimationFrame(updateCounter);
-                    } else {
-                        counter.textContent = target + suffix;
-                    }
-                };
-                
-                updateCounter();
+/* ---------- Scroll progress ---------- */
+function initProgressBar() {
+    const bar = document.getElementById('progressBar');
+    if (!bar) return;
+    const update = () => {
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.width = (window.scrollY / h) * 100 + '%';
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+}
+
+/* ---------- Active section highlight ---------- */
+function initScrollSpy() {
+    const links = document.querySelectorAll('.nav-links a');
+    const map = {};
+    links.forEach(l => {
+        const id = l.getAttribute('href').slice(1);
+        const sec = document.getElementById(id);
+        if (sec) map[id] = { link: l, sec };
+    });
+    const onScroll = () => {
+        const y = window.scrollY + 200;
+        let current = null;
+        Object.values(map).forEach(({ sec, link }) => {
+            if (y >= sec.offsetTop) current = link;
+        });
+        links.forEach(l => l.classList.remove('active'));
+        if (current) current.classList.add('active');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+}
+
+/* ---------- Reveal on scroll ---------- */
+function initReveals() {
+    const revealEls = document.querySelectorAll('.reveal, .reveal-phone');
+    const cardEls = document.querySelectorAll('[data-mag], .prob-card, .role-card, .quote-card, .tech-item, .bento');
+
+    if (prefersReduced) {
+        revealEls.forEach(el => el.classList.add('in'));
+        cardEls.forEach(el => el.classList.add('on-view'));
+        return;
+    }
+
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('in');
+                io.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => io.observe(el));
+
+    const cardIo = new IntersectionObserver((entries) => {
+        entries.forEach((e, i) => {
+            if (e.isIntersecting) {
+                const idx = [...e.target.parentElement.children].indexOf(e.target);
+                e.target.style.transitionDelay = Math.min(idx, 5) * 0.07 + 's';
+                e.target.classList.add('on-view');
+                cardIo.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+    cardEls.forEach(el => cardIo.observe(el));
+}
+
+/* ---------- Sales counter in phone ---------- */
+function initCounter() {
+    const el = document.getElementById('salesCounter');
+    if (!el) return;
+    const target = 120450;
+    const format = n => n.toLocaleString('fr-FR').replace(/\u202f/g, ' ');
+
+    if (prefersReduced) { el.textContent = format(target); return; }
+
+    const run = () => {
+        const dur = 1600, start = performance.now();
+        const tick = (now) => {
+            const p = Math.min((now - start) / dur, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = format(Math.floor(target * eased));
+            if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+    };
+
+    const io = new IntersectionObserver((e) => {
+        if (e[0].isIntersecting) { run(); io.disconnect(); }
+    }, { threshold: 0.5 });
+    io.observe(el);
+}
+
+/* ---------- Sparkline bars in phone ---------- */
+function initSpark() {
+    const spark = document.getElementById('spark');
+    if (!spark) return;
+    const heights = [30, 55, 40, 70, 50, 85, 60, 95, 72, 88, 65, 100];
+    spark.innerHTML = heights.map(h => `<span style="height:${h}%"></span>`).join('');
+}
+
+/* ---------- FAQ accordion ---------- */
+function initFaq() {
+    const items = document.querySelectorAll('.faq-item');
+    items.forEach(item => {
+        const q = item.querySelector('.faq-q');
+        const a = item.querySelector('.faq-a');
+        q.addEventListener('click', () => {
+            const open = item.classList.contains('active');
+            items.forEach(i => {
+                i.classList.remove('active');
+                i.querySelector('.faq-a').style.maxHeight = null;
             });
+            if (!open) {
+                item.classList.add('active');
+                a.style.maxHeight = a.scrollHeight + 'px';
+            }
+        });
+    });
+}
+
+/* ---------- Offline demo (signature interactive) ---------- */
+function initOfflineDemo() {
+    const sw = document.getElementById('netSwitch');
+    const nsLabel = document.getElementById('nsLabel');
+    const status = document.getElementById('demoStatus');
+    const feed = document.getElementById('demoFeed');
+    const sellBtn = document.getElementById('demoSell');
+    const netBadge = document.getElementById('netBadge');
+    if (!sw || !feed) return;
+
+    let online = true;
+    let sales = [];
+    let id = 0;
+
+    const products = [
+        ['Riz 5kg', 6000, 'wave'],
+        ['Huile 1L', 1500, 'orange'],
+        ['Savon × 4', 1200, 'cash'],
+        ['Sucre 1kg', 900, 'wave'],
+        ['Pain × 3', 450, 'cash'],
+        ['Lait × 2', 1800, 'orange'],
+    ];
+
+    const money = n => n.toLocaleString('fr-FR').replace(/\u202f/g, ' ');
+
+    function render() {
+        if (sales.length === 0) {
+            feed.innerHTML = `<div class="demo-empty">Aucune vente pour l'instant.<br>Appuyez sur « Enregistrer une vente ».</div>`;
+            return;
+        }
+        feed.innerHTML = sales.slice(-4).reverse().map(s => `
+            <div class="feed-row">
+                <span>${s.name}</span>
+                <span class="fr-amt">${money(s.amount)}</span>
+                <span class="fr-state ${s.synced ? 'synced' : 'pending'}">
+                    ${s.synced ? '✓ Synchro' : '⏳ En attente'}
+                </span>
+            </div>`).join('');
+    }
+
+    function setStatus(mode) {
+        status.className = 'demo-status' + (mode === 'online' ? '' : ' ' + mode);
+        if (mode === 'online') {
+            status.innerHTML = `<i class="fas fa-wifi"></i><span>Connecté — tout est synchronisé</span>`;
+        } else if (mode === 'offline') {
+            status.innerHTML = `<i class="fas fa-wifi-slash"></i><span>Hors ligne — les ventes sont sauvegardées</span>`;
+        } else if (mode === 'syncing') {
+            status.innerHTML = `<i class="fas fa-rotate fa-spin"></i><span>Retour du réseau — synchronisation…</span>`;
         }
     }
-    
-    window.addEventListener('scroll', animateCounters);
-    animateCounters();
+
+    function addSale() {
+        const [name, amount, method] = products[id % products.length];
+        id++;
+        sales.push({ name, amount, method, synced: online });
+        render();
+    }
+
+    function goOffline() {
+        online = false;
+        sw.setAttribute('aria-pressed', 'true');
+        nsLabel.textContent = 'Rétablir le réseau';
+        setStatus('offline');
+        if (netBadge) { netBadge.classList.add('offline'); netBadge.innerHTML = '<i class="fas fa-wifi-slash"></i> Hors ligne'; }
+    }
+
+    function goOnline() {
+        online = true;
+        sw.setAttribute('aria-pressed', 'false');
+        nsLabel.textContent = 'Couper le réseau';
+        const pending = sales.some(s => !s.synced);
+        if (netBadge) { netBadge.classList.remove('offline'); netBadge.innerHTML = '<i class="fas fa-wifi"></i> En ligne'; }
+        if (pending) {
+            setStatus('syncing');
+            setTimeout(() => {
+                sales.forEach(s => s.synced = true);
+                render();
+                setStatus('online');
+            }, 1400);
+        } else {
+            setStatus('online');
+        }
+    }
+
+    sw.addEventListener('click', () => online ? goOffline() : goOnline());
+    sellBtn.addEventListener('click', addSale);
+
+    // seed a couple of sales
+    addSale();
+    addSale();
 }
 
-function initScrollEffects() {
-    const sections = document.querySelectorAll('section');
-    
-    const navLinks = document.querySelectorAll('.nav-links a');
-    
-    window.addEventListener('scroll', () => {
-        let current = '';
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            
-            if (scrollY >= sectionTop - 200) {
-                current = section.getAttribute('id');
+/* ---------- Hero net badge subtle idle (kept in sync with demo) ---------- */
+function initHeroNet() { /* handled inside offline demo */ }
+
+/* ---------- Hero canvas: connected particle field ---------- */
+function initHeroCanvas() {
+    const canvas = document.getElementById('heroCanvas');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    let w, h, dpr, particles = [], mouse = { x: -999, y: -999 };
+    const NAVY = 'rgba(43,58,82,';
+    const ORANGE = 'rgba(239,125,0,';
+
+    function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = canvas.clientWidth;
+        h = canvas.clientHeight;
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        seed();
+    }
+
+    function seed() {
+        const count = Math.min(70, Math.floor((w * h) / 16000));
+        particles = Array.from({ length: count }, () => ({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 0.35,
+            vy: (Math.random() - 0.5) * 0.35,
+            r: Math.random() * 1.8 + 0.8,
+            orange: Math.random() > 0.82,
+        }));
+    }
+
+    function step() {
+        ctx.clearRect(0, 0, w, h);
+
+        for (const p of particles) {
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < 0 || p.x > w) p.vx *= -1;
+            if (p.y < 0 || p.y > h) p.vy *= -1;
+
+            // gentle mouse repel
+            const dx = p.x - mouse.x, dy = p.y - mouse.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < 120) {
+                p.x += (dx / dist) * 0.8;
+                p.y += (dy / dist) * 0.8;
             }
+        }
+
+        // links
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const a = particles[i], b = particles[j];
+                const d = Math.hypot(a.x - b.x, a.y - b.y);
+                if (d < 130) {
+                    const alpha = (1 - d / 130) * 0.14;
+                    ctx.strokeStyle = NAVY + alpha + ')';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(a.x, a.y);
+                    ctx.lineTo(b.x, b.y);
+                    ctx.stroke();
+                }
+            }
+        }
+
+        // dots
+        for (const p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = (p.orange ? ORANGE : NAVY) + '0.55)';
+            ctx.fill();
+        }
+
+        raf = requestAnimationFrame(step);
+    }
+
+    let raf;
+    window.addEventListener('mousemove', e => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+    });
+    window.addEventListener('mouseleave', () => { mouse.x = -999; mouse.y = -999; });
+    window.addEventListener('resize', resize);
+
+    resize();
+    if (!prefersReduced) step();
+    else {
+        // static single frame
+        ctx.clearRect(0, 0, w, h);
+        for (const p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = (p.orange ? ORANGE : NAVY) + '0.4)';
+            ctx.fill();
+        }
+    }
+}
+
+/* ---------- Magnetic tilt on bento + phone parallax ---------- */
+function initMagnet() {
+    if (prefersReduced) return;
+
+    // Phone subtle tilt following cursor
+    const phone = document.getElementById('heroPhone');
+    if (phone) {
+        const wrap = phone.closest('.hero-phone');
+        wrap.addEventListener('mousemove', e => {
+            const r = wrap.getBoundingClientRect();
+            const px = (e.clientX - r.left) / r.width - 0.5;
+            const py = (e.clientY - r.top) / r.height - 0.5;
+            phone.style.animation = 'none';
+            phone.style.transform =
+                `rotateY(${-14 + px * 10}deg) rotateX(${6 - py * 10}deg)`;
         });
-        
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === '#' + current) {
-                link.classList.add('active');
-            }
+        wrap.addEventListener('mouseleave', () => {
+            phone.style.animation = '';
+            phone.style.transform = '';
+        });
+    }
+
+    // Bento cards magnetic glow-follow
+    document.querySelectorAll('[data-mag]').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const r = card.getBoundingClientRect();
+            const x = (e.clientX - r.left) / r.width - 0.5;
+            const y = (e.clientY - r.top) / r.height - 0.5;
+            card.style.transform = `translateY(-6px) rotateX(${-y * 4}deg) rotateY(${x * 4}deg)`;
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
         });
     });
-    
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
+}
+
+/* ---------- Download button ---------- */
+function initDownload() {
+    const btn = document.getElementById('downloadBtn');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+        window.location.href =
+            'https://drive.usercontent.google.com/download?id=1a8x5axh464yIaPrtnUvWizq0ujhgYRBe&export=download&authuser=0';
+        toast('Le téléchargement va démarrer…');
     });
 }
 
-function initTiltEffect() {
-    const cards = document.querySelectorAll('[data-tilt]');
-    
-    cards.forEach(card => {
-        card.addEventListener('mousemove', handleTilt);
-        card.addEventListener('mouseleave', resetTilt);
+function toast(msg) {
+    const t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = `
+        position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);
+        background:#141d2b;color:#fff;padding:.85rem 1.5rem;border-radius:100px;
+        font-family:'Sora',sans-serif;font-size:.9rem;font-weight:500;z-index:10000;
+        box-shadow:0 20px 40px -12px rgba(0,0,0,.4);opacity:0;transition:.3s cubic-bezier(.2,.7,.2,1);`;
+    document.body.appendChild(t);
+    requestAnimationFrame(() => {
+        t.style.opacity = '1';
+        t.style.transform = 'translateX(-50%) translateY(0)';
     });
-    
-    function handleTilt(e) {
-        const card = e.currentTarget;
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const rotateX = (y - centerY) / 20;
-        const rotateY = (centerX - x) / 20;
-        
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
-    }
-    
-    function resetTilt(e) {
-        const card = e.currentTarget;
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
-    }
-}
-
-function setupDownloadButton() {
-    const downloadBtn = document.getElementById('downloadBtn');
-    
-    if (downloadBtn) {
-        downloadBtn.addEventListener('click', function() {
-            window.location.href = 'https://drive.usercontent.google.com/download?id=1rqKKXK76tPxN0HIDTHESrLSKbA0MVbJ1&export=download';
-            
-            showNotification('Le téléchargement démarrera bientôt...');
-        });
-    }
-}
-
-function showNotification(message) {
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.innerHTML = `
-        <i class="fas fa-info-circle"></i>
-        <span>${message}</span>
-    `;
-    notification.style.cssText = `
-        position: fixed;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: var(--dark-secondary);
-        border: 1px solid var(--glass-border);
-        padding: 1rem 2rem;
-        border-radius: 50px;
-        color: var(--light);
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        z-index: 10000;
-        animation: slideUp 0.3s ease;
-    `;
-    
-    document.body.appendChild(notification);
-    
     setTimeout(() => {
-        notification.style.animation = 'slideDown 0.3s ease';
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
+        t.style.opacity = '0';
+        t.style.transform = 'translateX(-50%) translateY(20px)';
+        setTimeout(() => t.remove(), 300);
+    }, 2800);
 }
-
-function scrollToDownload() {
-    const downloadSection = document.getElementById('download');
-    if (downloadSection) {
-        downloadSection.scrollIntoView({ behavior: 'smooth' });
-    }
-}
-
-window.addEventListener('scroll', () => {
-    const animatedElements = document.querySelectorAll('.feature-card, .tech-item, .ux-item, .step');
-    
-    animatedElements.forEach((el, index) => {
-        const rect = el.getBoundingClientRect();
-        const isVisible = rect.top < window.innerHeight - 100;
-        
-        if (isVisible && !el.classList.contains('animated')) {
-            el.classList.add('animated');
-            el.style.transitionDelay = `${index * 0.1}s`;
-        }
-    });
-});
-
-const style = document.createElement('style');
-style.textContent = `
-    .animate-in {
-        opacity: 1 !important;
-        transform: translateY(0) !important;
-    }
-    
-    @keyframes slideUp {
-        from {
-            opacity: 0;
-            transform: translateX(-50%) translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-    }
-    
-    @keyframes slideDown {
-        from {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-        to {
-            opacity: 0;
-            transform: translateX(-50%) translateY(20px);
-        }
-    }
-    
-    .notification i {
-        color: var(--primary-light);
-    }
-`;
-document.head.appendChild(style);

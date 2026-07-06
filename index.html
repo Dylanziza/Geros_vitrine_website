@@ -4,580 +4,538 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geros - Gestion de Boutique Intelligente</title>
+    <title>Geros — La caisse qui marche même sans réseau</title>
+    <meta name="description"
+        content="Geros : l'application de gestion de boutique pensée pour les commerçants ivoiriens. Vendez hors ligne, séparez propriétaire et gérant, encaissez Wave, Orange et MTN.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
 
-    <nav class="navbar">
+    <!-- ============ NAV ============ -->
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <div class="logo">
-                <img src="logo.png" alt="GEROS Logo" class="logo-img">
+            <a href="#top" class="logo">
+                <img src="logo.png" alt="" class="logo-img">
                 <span class="logo-text">GEROS</span>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#features">Fonctionnalités</a></li>
-                <li><a href="#tech">Technologies</a></li>
-                <li><a href="#tester">Tester</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li class="mobile-only"><a href="#download" onclick="scrollToDownload()">Télécharger</a></li>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#produit">Le produit</a></li>
+                <li><a href="#offline">Hors ligne</a></li>
+                <li><a href="#roles">Propriétaire / Gérant</a></li>
+                <li><a href="#fonctions">Fonctions</a></li>
+                <li><a href="#faq">FAQ</a></li>
             </ul>
-            <button class="download-btn nav-download" onclick="scrollToDownload()">
-                <i class="fas fa-download"></i>
+            <a href="#download" class="btn-nav">
                 <span>Télécharger</span>
+                <i class="fas fa-arrow-down"></i>
+            </a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                <span></span><span></span><span></span>
             </button>
-            <div class="menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
         </div>
     </nav>
 
-    <section class="hero">
-        <div class="hero-bg">
-            <div class="grid-pattern"></div>
-            <div class="gradient-orb orb-1"></div>
-            <div class="gradient-orb orb-2"></div>
-            <div class="gradient-orb orb-3"></div>
+    <!-- ============ HERO ============ -->
+    <header class="hero" id="top">
+        <div class="hero-canvas-wrap" aria-hidden="true">
+            <canvas id="heroCanvas"></canvas>
         </div>
-        <div class="hero-content">
-            <div class="badge-reveal">
-                <span class="badge-dot"></span>
-                <span>L'application nouvelle génération</span>
-            </div>
-            <h1 class="hero-title">
-                <span class="title-line">Gérez votre boutique</span>
-                <span class="title-line highlight">comme un pro</span>
-            </h1>
-            <p class="hero-subtitle">
-                Geros transforme la gestion de votre commerce avec une interface intuitive,
-                des outils puissants de suivi financier et une expérience fluide, même hors ligne.
-            </p>
-            <div class="hero-cta">
-                <button class="btn-primary" onclick="scrollToDownload()">
-                    <i class="fas fa-rocket"></i>
-                    <span>Télécharger l'App</span>
-                    <div class="btn-shine"></div>
-                </button>
-                <button class="btn-secondary"
-                    onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})">
-                    <i class="fas fa-play"></i>
-                    <span>Découvrir</span>
-                </button>
-            </div>
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <span class="stat-number" data-target="100">0</span>
-                    <span class="stat-label">%</span>
-                    <span class="stat-desc">Données Sécurisées</span>
+        <div class="hero-inner">
+            <div class="hero-copy">
+                <div class="eyebrow reveal">
+                    <span class="pulse-dot"></span>
+                    Conçu à Abidjan, pour nos commerces
                 </div>
-                <div class="stat-divider"></div>
-                <div class="stat-item">
-                    <span class="stat-number" data-target="24">0</span>
-                    <span class="stat-label">/7</span>
-                    <span class="stat-desc">Disponibilité</span>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat-item">
-                    <span class="stat-number" data-target="500" data-suffix="+">0</span>
-                    <span class="stat-label"></span>
-                    <span class="stat-desc">Commerçants</span>
-                </div>
-            </div>
-        </div>
-        <div class="hero-visual">
-            <div class="phone-mockup">
-                <div class="phone-frame">
-                    <div class="phone-screen">
-                        <div class="app-header">
-                            <img src="logo.png" alt="Logo" class="app-logo-img">
-                            <span class="app-name">GEROS</span>
-                        </div>
-                        <div class="app-dashboard">
-                            <div class="dash-card">
-                                <span class="dash-label">Ventes aujourd'hui</span>
-                                <span class="dash-value">120 450 FCFA</span>
-                                <span class="dash-trend up">+12%</span>
-                            </div>
-                            <div class="dash-grid">
-                                <div class="dash-item">
-                                    <i class="fas fa-shopping-bag"></i>
-                                    <span>85</span>
-                                </div>
-                                <div class="dash-item">
-                                    <i class="fas fa-box"></i>
-                                    <span>234</span>
-                                </div>
-                                <div class="dash-item">
-                                    <i class="fas fa-chart-line"></i>
-                                    <span>+850FCFA</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="app-nav">
-                            <div class="nav-dot active"></div>
-                            <div class="nav-dot"></div>
-                            <div class="nav-dot"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="phone-glow"></div>
-            </div>
-            <div class="floating-elements">
-                <div class="float-card card-1">
-                    <i class="fas fa-wifi-slash"></i>
-                    <span>Mode Offline</span>
-                </div>
-                <div class="float-card card-2">
-                    <i class="fas fa-bolt"></i>
-                    <span>Sync Auto</span>
-                </div>
-                <div class="float-card card-3">
-                    <i class="fas fa-qrcode"></i>
-                    <span>Scanner</span>
-                </div>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <div class="mouse">
-                <div class="wheel"></div>
-            </div>
-            <span>Découvrir</span>
-        </div>
-    </section>
-
-    <section class="why-geros">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Pourquoi GEROS ?</span>
-                <h2 class="section-title">L'avantage stratégique</h2>
-            </div>
-            <div class="why-grid">
-                <div class="why-item">
-                    <div class="why-icon"><i class="fas fa-microchip"></i></div>
-                    <h4>Performance Hors-Ligne</h4>
-                    <p>Continuez à vendre même en cas de coupure internet. Vos données se synchronisent automatiquement
-                        dès le retour de la connexion.</p>
-                </div>
-                <div class="why-item">
-                    <div class="why-icon"><i class="fas fa-shield-halved"></i></div>
-                    <h4>Sécurité Maximale</h4>
-                    <p>Vos données sont protégées par le chiffrement de bout en bout et hébergées sur des serveurs
-                        sécurisés Supabase.</p>
-                </div>
-                <div class="why-item">
-                    <div class="why-icon"><i class="fas fa-brain"></i></div>
-                    <h4>Intelligence Métier</h4>
-                    <p>Transformez vos chiffres en décisions. GEROS analyse vos tendances de vente pour optimiser votre
-                        stock.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="features" class="features">
-        <div class="section-header">
-            <span class="section-tag">Fonctionnalités</span>
-            <h2 class="section-title">Tout ce dont vous avez besoin</h2>
-            <p class="section-subtitle">Des outils puissants pour gérer votre commerce efficacement</p>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card" data-tilt>
-                <div class="feature-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <h3>Dashboard Financier</h3>
-                <p>Visualisez vos ventes du jour et du mois en un coup d'œil. Suivi des bénéfices calculés
-                    automatiquement.</p>
-                <ul class="feature-list">
-                    <li><i class="fas fa-check"></i> Temps réel</li>
-                    <li><i class="fas fa-check"></i> Indicateurs visuels</li>
-                    <li><i class="fas fa-check"></i> Comparaison mensuelle</li>
-                </ul>
-            </div>
-            <div class="feature-card" data-tilt>
-                <div class="feature-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-                <h3>Module de Vente</h3>
-                <p>Interface tactile rapide avec gestion de panier optimisée. Continuez à vendre sans connexion.</p>
-                <ul class="feature-list">
-                    <li><i class="fas fa-check"></i> Mode offline-first</li>
-                    <li><i class="fas fa-check"></i> Images mises en cache</li>
-                    <li><i class="fas fa-check"></i> Synchronisation auto</li>
-                </ul>
-            </div>
-            <div class="feature-card" data-tilt>
-                <div class="feature-icon">
-                    <i class="fas fa-boxes-stacked"></i>
-                </div>
-                <h3>Inventaire & Stock</h3>
-                <p>Gestion simplifiée de vos produits avec scanner de codes-barres intégré.</p>
-                <ul class="feature-list">
-                    <li><i class="fas fa-check"></i> Scanner natif</li>
-                    <li><i class="fas fa-check"></i> Alertes stock bas</li>
-                    <li><i class="fas fa-check"></i> Suivi en temps réel</li>
-                </ul>
-            </div>
-            <div class="feature-card" data-tilt>
-                <div class="feature-icon">
-                    <i class="fas fa-file-invoice-dollar"></i>
-                </div>
-                <h3>Rapports & Historique</h3>
-                <p>Accédez à l'historique complet de vos transactions et générez des reçus.</p>
-                <ul class="feature-list">
-                    <li><i class="fas fa-check"></i> Détails précis</li>
-                    <li><i class="fas fa-check"></i> Génération reçus</li>
-                    <li><i class="fas fa-check"></i> Analyses mensuelles</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section id="tech" class="tech-stack">
-        <div class="tech-bg">
-            <div class="tech-bg-pattern"></div>
-        </div>
-        <div class="section-header">
-            <span class="section-tag">Stack Technique</span>
-            <h2 class="section-title">Technologies de pointe</h2>
-            <p class="section-subtitle">Une architecture moderne pour des performances optimales</p>
-        </div>
-        <div class="tech-items-container">
-            <div class="tech-item">
-                <div class="tech-icon">
-                    <i class="fab fa-flutter"></i>
-                </div>
-                <span class="tech-name">Flutter</span>
-                <span class="tech-role">Framework</span>
-            </div>
-            <div class="tech-item">
-                <div class="tech-icon">
-                    <i class="fas fa-database"></i>
-                </div>
-                <span class="tech-name">Supabase</span>
-                <span class="tech-role">Backend</span>
-            </div>
-            <div class="tech-item">
-                <div class="tech-icon">
-                    <i class="fas fa-water"></i>
-                </div>
-                <span class="tech-name">Riverpod</span>
-                <span class="tech-role">State Management</span>
-            </div>
-            <div class="tech-item">
-                <div class="tech-icon">
-                    <i class="fas fa-route"></i>
-                </div>
-                <span class="tech-name">GoRouter</span>
-                <span class="tech-role">Navigation</span>
-            </div>
-            <div class="tech-item">
-                <div class="tech-icon">
-                    <i class="fas fa-mobile-alt"></i>
-                </div>
-                <span class="tech-name">Local Storage</span>
-                <span class="tech-role">Cache</span>
-            </div>
-        </div>
-    </section>
-
-    <section class="ux-showcase">
-        <div class="section-header">
-            <span class="section-tag">UX/UI</span>
-            <h2 class="section-title">Une expérience premium</h2>
-        </div>
-        <div class="ux-features">
-            <div class="ux-item">
-                <div class="ux-visual glass">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <h3>Design Premium</h3>
-                <p>Glassmorphism, palettes HSL et typographie moderne Google Fonts</p>
-            </div>
-            <div class="ux-item">
-                <div class="ux-visual swipe">
-                    <i class="fas fa-hand-point-up"></i>
-                </div>
-                <h3>Navigation par gestes</h3>
-                <p>Swipe navigation synchronisée avec la barre de navigation</p>
-            </div>
-            <div class="ux-item">
-                <div class="ux-visual animate">
-                    <i class="fas fa-film"></i>
-                </div>
-                <h3>Micro-animations</h3>
-                <p>Transitions fluides via flutter_animate pour une interface vivante</p>
-            </div>
-            <div class="ux-item">
-                <div class="ux-visual perf">
-                    <i class="fas fa-bolt"></i>
-                </div>
-                <h3>Performance 60fps</h3>
-                <p>RepaintBoundary et KeepAlive pour un défilement fluide</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="tester" class="tester-guide">
-        <div class="tester-container">
-            <div class="tester-content">
-                <span class="section-tag">Guide du Testeur</span>
-                <h2>Participez au beta test</h2>
-                <p>Aidez-nous à améliorer Geros en testant l'application et en partageant vos retours.</p>
-                <div class="test-steps">
-                    <div class="step">
-                        <div class="step-number">01</div>
-                        <div class="step-content">
-                            <h4>Installation</h4>
-                            <p>Téléchargez l'APK et installez-le sur votre appareil Android</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">02</div>
-                        <div class="step-content">
-                            <h4>Configuration</h4>
-                            <p>Complétez le questionnaire de configuration de boutique</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">03</div>
-                        <div class="step-content">
-                            <h4>Test</h4>
-                            <p>Ajoutez des produits, réalisez des ventes en ligne et hors ligne</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">04</div>
-                        <div class="step-content">
-                            <h4>Feedback</h4>
-                            <p>Signalez les bugs et partagez vos suggestions d'amélioration</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tester-graphic">
-                <div class="phone-floating">
-                    <div class="phone-small">
-                        <div class="screen-content">
-                            <div class="feature-preview fp-1">
-                                <i class="fas fa-box"></i>
-                                <span>Inventaire</span>
-                            </div>
-                            <div class="feature-preview fp-2">
-                                <i class="fas fa-chart-pie"></i>
-                                <span>Stats</span>
-                            </div>
-                            <div class="feature-preview fp-3">
-                                <i class="fas fa-receipt"></i>
-                                <span>Reçus</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="testimonials">
-        <div class="section-header">
-            <span class="section-tag">Retours</span>
-            <h2 class="section-title">Ils nous font confiance</h2>
-        </div>
-        <div class="testimonial-grid">
-            <div class="testimonial-card">
-                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                <p>"GEROS a totalement changé ma façon de gérer ma boutique. Le scanner est ultra rapide et le mode
-                    hors-ligne est une bouée de sauvetage."</p>
-                <div class="testimonial-author">
-                    <div class="author-info">
-                        <strong>M. Kouamé</strong>
-                        <span>Gérant de Superette</span>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                <p>"La clarté des rapports financiers m'aide à voir exactement où part mon argent. C'est l'outil que
-                    j'attendais depuis des années."</p>
-                <div class="testimonial-author">
-                    <div class="author-info">
-                        <strong>Mme Traoré</strong>
-                        <span>Boutique de Mode</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="download" class="download-section">
-        <div class="download-bg">
-            <div class="download-particles"></div>
-        </div>
-        <div class="download-content">
-            <h2>Prêt à booster votre business ?</h2>
-            <p>Rejoignez des centaines de commerçants qui simplifient leur gestion quotidienne avec GEROS.</p>
-            <div class="download-buttons">
-                <button class="download-apk" id="downloadBtn">
-                    <div class="download-icon">
+                <h1 class="hero-title">
+                    <span class="reveal-line"><span>La caisse qui</span></span>
+                    <span class="reveal-line"><span>marche <em>même sans</em></span></span>
+                    <span class="reveal-line"><span>réseau.</span></span>
+                </h1>
+                <p class="hero-lead reveal">
+                    Geros gère votre boutique de bout en bout : vous vendez, suivez le stock et
+                    encaissez Wave, Orange ou MTN — <strong>même quand le réseau coupe.</strong>
+                    Tout se synchronise dès que la connexion revient.
+                </p>
+                <div class="hero-actions reveal">
+                    <a href="#download" class="btn-primary">
                         <i class="fab fa-android"></i>
+                        <span>Télécharger l'app</span>
+                    </a>
+                    <a href="#produit" class="btn-ghost">
+                        <span>Voir comment ça marche</span>
+                        <i class="fas fa-arrow-down"></i>
+                    </a>
+                </div>
+                <dl class="hero-facts reveal">
+                    <div>
+                        <dt>0</dt>
+                        <dd>vente perdue<br>hors ligne</dd>
                     </div>
-                    <div class="download-text">
-                        <span class="download-label">Télécharger l'APK</span>
-                        <span class="download-size">Dernière version Beta • 70 MB</span>
+                    <div>
+                        <dt>2</dt>
+                        <dd>rôles séparés<br>propriétaire · gérant</dd>
                     </div>
-                    <div class="download-arrow">
-                        <i class="fas fa-arrow-right"></i>
+                    <div>
+                        <dt>3</dt>
+                        <dd>paiements<br>Wave · Orange · MTN</dd>
                     </div>
+                </dl>
+            </div>
+
+            <!-- Live phone -->
+            <div class="hero-phone reveal-phone">
+                <div class="phone" id="heroPhone">
+                    <div class="phone-notch"></div>
+                    <div class="phone-screen">
+                        <div class="app-top">
+                            <div class="app-top-left">
+                                <img src="logo.png" alt="">
+                                <div>
+                                    <span class="app-store">Boutique Chez Awa</span>
+                                    <span class="app-role">Propriétaire</span>
+                                </div>
+                            </div>
+                            <span class="app-net" id="netBadge"><i class="fas fa-wifi"></i> En ligne</span>
+                        </div>
+
+                        <div class="app-hero-card">
+                            <span class="ahc-label">Ventes aujourd'hui</span>
+                            <span class="ahc-value"><span id="salesCounter">0</span> <small>FCFA</small></span>
+                            <span class="ahc-trend"><i class="fas fa-arrow-trend-up"></i> +12% vs hier</span>
+                            <div class="ahc-spark" id="spark"></div>
+                        </div>
+
+                        <div class="app-mini-grid">
+                            <div class="mini">
+                                <i class="fas fa-receipt"></i>
+                                <b>85</b><span>ventes</span>
+                            </div>
+                            <div class="mini">
+                                <i class="fas fa-boxes-stacked"></i>
+                                <b>234</b><span>produits</span>
+                            </div>
+                            <div class="mini">
+                                <i class="fas fa-sack-dollar"></i>
+                                <b>+48k</b><span>bénéfice</span>
+                            </div>
+                        </div>
+
+                        <div class="app-list">
+                            <div class="app-list-row">
+                                <span class="alr-dot alr-wave"></span>
+                                <span class="alr-name">Riz 5kg × 2</span>
+                                <span class="alr-amt">12 000</span>
+                            </div>
+                            <div class="app-list-row">
+                                <span class="alr-dot alr-orange"></span>
+                                <span class="alr-name">Huile 1L</span>
+                                <span class="alr-amt">1 500</span>
+                            </div>
+                            <div class="app-list-row">
+                                <span class="alr-dot alr-cash"></span>
+                                <span class="alr-name">Savon × 6</span>
+                                <span class="alr-amt">1 800</span>
+                            </div>
+                        </div>
+
+                        <div class="app-tabbar">
+                            <i class="fas fa-house active"></i>
+                            <i class="fas fa-cart-shopping"></i>
+                            <i class="fas fa-boxes-stacked"></i>
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="phone-tag tag-a"><i class="fas fa-wifi"></i> Sync auto</div>
+                <div class="phone-tag tag-b"><i class="fas fa-barcode"></i> Scanner</div>
+                <div class="phone-tag tag-c"><i class="fas fa-lock"></i> Rôles séparés</div>
+            </div>
+        </div>
+        <a href="#produit" class="scroll-cue" aria-label="Défiler">
+            <span></span>
+        </a>
+    </header>
+
+    <!-- ============ MARQUEE ============ -->
+    <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+            <span>Offline-first</span><span class="sep">✳</span>
+            <span>Wave · Orange · MTN</span><span class="sep">✳</span>
+            <span>Scanner code-barres</span><span class="sep">✳</span>
+            <span>Propriétaire / Gérant</span><span class="sep">✳</span>
+            <span>Reçus WhatsApp</span><span class="sep">✳</span>
+            <span>Alertes stock bas</span><span class="sep">✳</span>
+            <span>Offline-first</span><span class="sep">✳</span>
+            <span>Wave · Orange · MTN</span><span class="sep">✳</span>
+            <span>Scanner code-barres</span><span class="sep">✳</span>
+            <span>Propriétaire / Gérant</span><span class="sep">✳</span>
+            <span>Reçus WhatsApp</span><span class="sep">✳</span>
+            <span>Alertes stock bas</span><span class="sep">✳</span>
+        </div>
+    </div>
+
+    <!-- ============ PRODUIT / PROBLÈME ============ -->
+    <section class="section problem" id="produit">
+        <div class="container">
+            <p class="section-eyebrow">01 — Le vrai problème</p>
+            <h2 class="section-title">
+                La gestion d'une boutique, ce n'est pas un tableur.<br>
+                <span class="muted">C'est du réseau qui coupe, un gérant à surveiller, et de la monnaie à recompter.</span>
+            </h2>
+            <div class="problem-grid">
+                <article class="prob-card">
+                    <span class="prob-index">Avant</span>
+                    <p>Le réseau coupe → la vente est bloquée, le client repart.</p>
+                </article>
+                <article class="prob-card">
+                    <span class="prob-index">Avant</span>
+                    <p>Le gérant voit tout, modifie tout → impossible de savoir où part l'argent.</p>
+                </article>
+                <article class="prob-card">
+                    <span class="prob-index">Avant</span>
+                    <p>Espèces, Wave, Orange, MTN mélangés → la caisse ne tombe jamais juste.</p>
+                </article>
+                <article class="prob-card solved">
+                    <span class="prob-index">Avec Geros</span>
+                    <p>Vous vendez hors ligne, chacun son rôle, chaque paiement tracé. La caisse tombe juste.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ OFFLINE (signature interactive) ============ -->
+    <section class="section offline" id="offline">
+        <div class="container offline-grid">
+            <div class="offline-copy">
+                <p class="section-eyebrow">02 — Offline-first</p>
+                <h2 class="section-title">Coupez le réseau.<br>Continuez à vendre.</h2>
+                <p class="section-lead">
+                    Geros n'attend pas internet pour fonctionner. Chaque vente est enregistrée
+                    sur le téléphone, puis remontée automatiquement dès que la connexion revient —
+                    sans double-saisie, sans perte.
+                </p>
+                <ul class="check-list">
+                    <li><i class="fas fa-circle-check"></i> Ventes, stock et reçus disponibles hors ligne</li>
+                    <li><i class="fas fa-circle-check"></i> Synchronisation automatique au retour du réseau</li>
+                    <li><i class="fas fa-circle-check"></i> Aucune donnée perdue pendant un délestage</li>
+                </ul>
+                <button class="net-switch" id="netSwitch" aria-pressed="false">
+                    <span class="ns-track"><span class="ns-thumb"></span></span>
+                    <span class="ns-label" id="nsLabel">Couper le réseau</span>
                 </button>
             </div>
-            <div class="qr-code-promo">
-                <div class="qr-placeholder">
-                    <img src="barcode.png" alt="Barcode GEROS" style="width: 100%; height: 100%; border-radius: 8px;">
-                </div>
-                <span>Scannez pour télécharger sur mobile</span>
-            </div>
-            <div class="download-note">
-                <i class="fas fa-info-circle"></i>
-                <span>Compatible Android 8.0 et supérieur</span>
-            </div>
-        </div>
-    </section>
-
-    <section id="faq" class="faq-section">
-        <div class="section-header">
-            <span class="section-tag">FAQ</span>
-            <h2 class="section-title">Questions fréquentes</h2>
-        </div>
-        <div class="faq-container">
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h4>Est-ce que GEROS fonctionne sans internet ?</h4>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    <p>Oui ! GEROS est conçu avec une approche "Offline-First". Vous pouvez effectuer des ventes,
-                        scanner des produits et gérer votre stock même sans connexion. Les données se synchroniseront
-                        automatiquement dès que vous retrouverez internet.</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h4>Mes données sont-elles en sécurité ?</h4>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    <p>Absolument. Nous utilisons Supabase pour l'hébergement de vos données, garantissant un niveau de
-                        sécurité entreprise avec chiffrement et sauvegardes régulières.</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h4>Puis-je gérer plusieurs boutiques ?</h4>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    <p>La version actuelle est optimisée pour une gestion mono-boutique premium. La gestion
-                        multi-boutiques est prévue dans nos prochaines mises à jour.</p>
+            <div class="offline-demo">
+                <div class="demo-phone" id="demoPhone">
+                    <div class="demo-status" id="demoStatus">
+                        <i class="fas fa-wifi"></i>
+                        <span>Connecté — tout est synchronisé</span>
+                    </div>
+                    <div class="demo-feed" id="demoFeed"></div>
+                    <button class="demo-sell" id="demoSell">
+                        <i class="fas fa-plus"></i> Enregistrer une vente
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="about-section">
-        <div class="about-container">
-            <div class="about-card">
-                <div class="about-avatar">
-                    <div class="avatar-ring"></div>
-                    <div class="avatar-inner">
-                        <img src="founder.png" alt="">
+    <!-- ============ ROLES ============ -->
+    <section class="section roles" id="roles">
+        <div class="container">
+            <p class="section-eyebrow">03 — Propriétaire &amp; Gérant</p>
+            <h2 class="section-title">Confiez la boutique.<br>Gardez le contrôle.</h2>
+            <p class="section-lead center">
+                Deux accès, deux visions. Le gérant encaisse sans jamais voir vos marges.
+                Vous suivez bénéfices, stock et annulations depuis votre téléphone.
+            </p>
+            <div class="roles-grid">
+                <article class="role-card role-owner">
+                    <div class="role-head">
+                        <span class="role-badge"><i class="fas fa-crown"></i> Propriétaire</span>
+                        <h3>Vous voyez tout</h3>
                     </div>
-                </div>
-                <div class="about-info">
-                    <span class="about-label">Fondateur & Développeur</span>
-                    <h3>Dago Dylan</h3>
-                    <p class="about-title">23 ans • Développeur Web & Mobile</p>
-                    <p class="about-bio">
-                        Passionné par la création d'expériences numériques innovantes,
-                        je développe des applications modernes avec une attention particulière
-                        à l'UX/UI et aux performances. Spécialisé en Flutter et technologies web récentes.
-                    </p>
-                    <div class="about-skills">
-                        <span class="skill-tag">Flutter</span>
-                        <span class="skill-tag">React</span>
-                        <span class="skill-tag">Node.js</span>
-                        <span class="skill-tag">UI/UX</span>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Bénéfices réels et prix d'achat</li>
+                        <li><i class="fas fa-check"></i> Stock complet et valeur d'inventaire</li>
+                        <li><i class="fas fa-check"></i> Historique des annulations du gérant</li>
+                        <li><i class="fas fa-check"></i> Invitation et gestion des gérants</li>
+                    </ul>
+                </article>
+                <div class="role-vs">vs</div>
+                <article class="role-card role-manager">
+                    <div class="role-head">
+                        <span class="role-badge alt"><i class="fas fa-store"></i> Gérant</span>
+                        <h3>Il vend, c'est tout</h3>
                     </div>
-                    <div class="about-contact">
-                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Caisse et encaissement rapides</li>
+                        <li><i class="fas fa-check"></i> Consultation du stock disponible</li>
+                        <li><i class="fas fa-xmark no"></i> Aucune visibilité sur vos marges</li>
+                        <li><i class="fas fa-xmark no"></i> Aucun accès aux réglages sensibles</li>
+                    </ul>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FEATURES ============ -->
+    <section class="section features" id="fonctions">
+        <div class="container">
+            <p class="section-eyebrow">04 — Dans l'application</p>
+            <h2 class="section-title">Tout le nécessaire, rien de superflu.</h2>
+            <div class="feature-bento">
+                <article class="bento bento-lg" data-mag>
+                    <div class="bento-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Dashboard financier</h3>
+                    <p>Ventes du jour et du mois, bénéfices calculés automatiquement selon vos
+                        prix d'achat. Les gros montants restent lisibles.</p>
+                    <div class="bento-visual dash-visual">
+                        <div class="dv-bar" style="--h:40%"></div>
+                        <div class="dv-bar" style="--h:70%"></div>
+                        <div class="dv-bar" style="--h:55%"></div>
+                        <div class="dv-bar" style="--h:90%"></div>
+                        <div class="dv-bar" style="--h:65%"></div>
+                        <div class="dv-bar" style="--h:80%"></div>
                     </div>
+                </article>
+
+                <article class="bento" data-mag>
+                    <div class="bento-icon"><i class="fas fa-barcode"></i></div>
+                    <h3>Scanner intégré</h3>
+                    <p>L'appareil photo suffit pour scanner un article. Gestion de stock
+                        ultra-rapide, sans matériel en plus.</p>
+                </article>
+
+                <article class="bento" data-mag>
+                    <div class="bento-icon"><i class="fas fa-bell"></i></div>
+                    <h3>Alertes stock bas</h3>
+                    <p>Un indicateur visuel dès qu'un produit s'épuise. Vous réapprovisionnez
+                        avant la rupture.</p>
+                </article>
+
+                <article class="bento" data-mag>
+                    <div class="bento-icon"><i class="fab fa-whatsapp"></i></div>
+                    <h3>Reçus par WhatsApp</h3>
+                    <p>Plus de papier. Envoyez un reçu numérique propre directement au client,
+                        et gardez l'historique complet de chaque transaction.</p>
+                </article>
+
+                <article class="bento" data-mag>
+                    <div class="bento-icon"><i class="fas fa-wallet"></i></div>
+                    <h3>Wave · Orange · MTN</h3>
+                    <p>Chaque encaissement est tracé par moyen de paiement. La caisse tombe
+                        juste en fin de journée.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ TECH STRIP ============ -->
+    <section class="section tech">
+        <div class="container">
+            <p class="section-eyebrow center">Sous le capot</p>
+            <h2 class="section-title center small">Une base technique solide</h2>
+            <div class="tech-strip">
+                <div class="tech-item"><i class="fas fa-mobile-screen"></i><span>Flutter</span><small>iOS &amp; Android natif</small></div>
+                <div class="tech-item"><i class="fas fa-database"></i><span>Supabase</span><small>PostgreSQL &amp; Auth</small></div>
+                <div class="tech-item"><i class="fas fa-diagram-project"></i><span>Riverpod</span><small>Logique testable</small></div>
+                <div class="tech-item"><i class="fas fa-shield-halved"></i><span>RLS</span><small>Données cloisonnées</small></div>
+                <div class="tech-item"><i class="fas fa-bolt"></i><span>60 fps</span><small>Défilement fluide</small></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ TESTIMONIALS ============ -->
+    <section class="section quotes">
+        <div class="container">
+            <p class="section-eyebrow">05 — Sur le terrain</p>
+            <h2 class="section-title">Ce que disent les testeurs</h2>
+            <div class="quote-grid">
+                <figure class="quote-card">
+                    <blockquote>Le réseau a coupé en plein marché. J'ai continué à vendre
+                        sans même y penser. Tout est remonté après.</blockquote>
+                    <figcaption><strong>M. Kouamé</strong><span>Gérant de superette</span></figcaption>
+                </figure>
+                <figure class="quote-card">
+                    <blockquote>Je vois enfin mes vrais bénéfices, pas juste ce qui rentre
+                        en caisse. Ça a changé ma façon de gérer.</blockquote>
+                    <figcaption><strong>Mme Traoré</strong><span>Boutique de mode</span></figcaption>
+                </figure>
+                <figure class="quote-card">
+                    <blockquote>Mon gérant encaisse, moi je surveille depuis chez moi.
+                        Plus de mauvaises surprises le soir.</blockquote>
+                    <figcaption><strong>M. Diabaté</strong><span>Quincaillerie</span></figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ DOWNLOAD ============ -->
+    <section class="section download" id="download">
+        <div class="container download-inner">
+            <div class="download-copy">
+                <p class="section-eyebrow light">Prêt ?</p>
+                <h2 class="download-title">Installez Geros<br>et testez dès aujourd'hui.</h2>
+                <p class="download-lead">Version bêta gratuite. Aidez-nous à l'améliorer :
+                    chaque retour compte.</p>
+                <button class="btn-download" id="downloadBtn">
+                    <div class="bd-icon"><i class="fab fa-android"></i></div>
+                    <div class="bd-text">
+                        <span class="bd-main">Télécharger l'APK</span>
+                        <span class="bd-sub">Bêta · 70 Mo · Android 8.0+</span>
+                    </div>
+                    <i class="fas fa-arrow-right bd-arrow"></i>
+                </button>
+                <div class="download-steps">
+                    <div class="dstep"><b>1</b> Téléchargez l'APK</div>
+                    <div class="dstep"><b>2</b> Configurez votre boutique</div>
+                    <div class="dstep"><b>3</b> Vendez, testez, donnez votre avis</div>
                 </div>
             </div>
-            <div class="about-graphic">
-                <div class="code-block">
-                    <div class="code-header">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
-                    </div>
-                    <pre><code><span class="code-keyword">class</span> <span class="code-class">Developer</span> {
-  <span class="code-keyword">constructor</span>() {
-    <span class="code-property">this.name</span> = <span class="code-string">"Dago Dylan"</span>;
-    <span class="code-property">this.age</span> = <span class="code-number">23</span>;
-    <span class="code-property">this.role</span> = <span class="code-string">"Web & Mobile Dev"</span>;
-    <span class="code-property">this.passion</span> = <span class="code-string">"Innovation"</span>;
-  }
-  
-  <span class="code-function">createAmazingApps</span>() {
-    <span class="code-keyword">return</span> <span class="code-string">"Geros 🔥"</span>;
-  }
-}</code></pre>
+            <div class="download-qr">
+                <div class="qr-card">
+                    <img src="barcode.png" alt="Scannez pour télécharger Geros">
+                    <span><i class="fas fa-qrcode"></i> Scannez pour installer sur mobile</span>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- ============ FAQ ============ -->
+    <section class="section faq" id="faq">
+        <div class="container faq-inner">
+            <div class="faq-head">
+                <p class="section-eyebrow">06 — Questions</p>
+                <h2 class="section-title">Ce qu'on nous demande le plus</h2>
+            </div>
+            <div class="faq-list" id="faqList">
+                <div class="faq-item">
+                    <button class="faq-q">
+                        <span>Geros fonctionne vraiment sans internet ?</span>
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="faq-a">
+                        <p>Oui. L'approche est « offline-first » : ventes, scan de produits et
+                            gestion de stock marchent sans connexion. Tout se synchronise
+                            automatiquement dès que le réseau revient.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">
+                        <span>Mes données sont-elles en sécurité ?</span>
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="faq-a">
+                        <p>Les données sont hébergées sur Supabase avec chiffrement et
+                            sauvegardes régulières. Les règles d'accès (RLS) garantissent que
+                            chaque boutique ne voit que ses propres données.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">
+                        <span>Le gérant peut-il voir mes bénéfices ?</span>
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="faq-a">
+                        <p>Non. Le gérant accède à la caisse et au stock disponible, mais jamais
+                            à vos marges, prix d'achat ou réglages sensibles. Ces informations
+                            restent réservées au propriétaire.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">
+                        <span>Puis-je gérer plusieurs boutiques ?</span>
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="faq-a">
+                        <p>La version actuelle est optimisée pour une boutique. La gestion
+                            multi-boutiques est prévue dans une prochaine mise à jour.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">
+                        <span>Quels paiements sont pris en charge ?</span>
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="faq-a">
+                        <p>Espèces, Wave, Orange Money et MTN Money. Chaque encaissement est
+                            enregistré par moyen de paiement pour un rapprochement de caisse fiable.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOUNDER ============ -->
+    <section class="section founder" id="contact">
+        <div class="container founder-inner">
+            <div class="founder-photo">
+                <img src="founder.png" alt="Dago Dylan, fondateur de Geros">
+                <div class="founder-glow"></div>
+            </div>
+            <div class="founder-copy">
+                <p class="section-eyebrow">Le fondateur</p>
+                <h2 class="section-title">Dago Dylan</h2>
+                <p class="founder-role">Développeur web &amp; mobile · Abidjan</p>
+                <p class="founder-bio">
+                    Geros est né d'un constat simple : les outils de gestion existants ne
+                    tiennent pas compte de nos réalités — réseau instable, paiements mobiles,
+                    confiance à gérer entre propriétaire et gérant. Je construis Geros pour
+                    combler ce vide, avec Flutter et une obsession pour l'expérience de terrain.
+                </p>
+                <div class="founder-tags">
+                    <span>Flutter</span><span>Supabase</span><span>Riverpod</span><span>UX terrain</span>
+                </div>
+                <div class="founder-social">
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
     <footer class="footer">
-        <div class="footer-container">
+        <div class="container footer-inner">
             <div class="footer-brand">
-                <img src="logo.png" alt="GEROS Logo" class="footer-logo">
-                <span class="logo-text">GEROS</span>
-                <p>La gestion intelligente à portée de main.</p>
+                <a href="#top" class="logo">
+                    <img src="logo.png" alt="" class="logo-img">
+                    <span class="logo-text">GEROS</span>
+                </a>
+                <p>La gestion de boutique qui tient compte de nos réalités.</p>
             </div>
-            <div class="footer-links">
-                <div class="footer-group">
+            <nav class="footer-nav">
+                <div>
                     <h5>Produit</h5>
-                    <a href="#features">Fonctionnalités</a>
-                    <a href="#tech">Technologie</a>
+                    <a href="#offline">Hors ligne</a>
+                    <a href="#roles">Rôles</a>
+                    <a href="#fonctions">Fonctions</a>
                     <a href="#download">Télécharger</a>
                 </div>
-                <div class="footer-group">
+                <div>
                     <h5>Support</h5>
+                    <a href="#faq">FAQ</a>
                     <a href="#contact">Contact</a>
-                    <a href="#tester">Beta Test</a>
                 </div>
-            </div>
+            </nav>
         </div>
-        <div class="footer-bottom">
-            <div class="footer-container">
-                <p>&copy; 2026 GEROS. Tous droits réservés.</p>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
-                </div>
+        <div class="footer-bottom container">
+            <p>© 2026 Geros. Fait à Abidjan.</p>
+            <div class="footer-social">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
     </footer>
