@@ -405,7 +405,7 @@ function initDownload() {
     if (!btn) return;
     btn.addEventListener('click', () => {
         window.location.href =
-            'https://drive.usercontent.google.com/download?id=1a8x5axh464yIaPrtnUvWizq0ujhgYRBe&export=download&authuser=0';
+            'https://drive.usercontent.google.com/download?id=16KGNq7F_zM38lEXO18QQKOtqsMcy3zlH&export=download&authuser=0';
         toast('Le téléchargement va démarrer…');
     });
 }
